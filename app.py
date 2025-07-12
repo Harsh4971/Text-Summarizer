@@ -1,12 +1,14 @@
 import streamlit as st
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 import torch
+import os
 
 # Load tokenizer and model only once
 @st.cache_resource
 def load_model():
-    tokenizer = AutoTokenizer.from_pretrained("dps13/text-summarizer-model")
-    model = AutoModelForSeq2SeqLM.from_pretrained("dps13/text-summarizer-model")
+    hf_token = os.getenv("HF_TOKEN")
+    tokenizer = AutoTokenizer.from_pretrained("dps13/text-summarizer-model", token=hf_token)
+    model = AutoModelForSeq2SeqLM.from_pretrained("dps13/text-summarizer-model", token=hf_token)
     return tokenizer, model
 
 # Load model and tokenizer
